@@ -2,7 +2,7 @@
 
 A production-ready AI agent that learns from its mistakes to improve performance over time.
 
-## 🎯 What This Agent Does
+## What This Agent Does
 
 **Agent Type:** Research Agent
 
@@ -16,7 +16,7 @@ A production-ready AI agent that learns from its mistakes to improve performance
 - `web_search`: REQUIRED for queries about current events, recent data, or topics needing verification
 - `web_fetch`: OPTIONAL but recommended after searching, to get detailed information
 
-## 🏗️ System Architecture
+## System Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -49,7 +49,7 @@ A production-ready AI agent that learns from its mistakes to improve performance
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## 🚨 Types of Mistakes Handled
+## Types of Mistakes Handled
 
 1. **no_search** - Not using web_search when required
 2. **wrong_tool_order** - Calling web_fetch before web_search
@@ -57,7 +57,7 @@ A production-ready AI agent that learns from its mistakes to improve performance
 4. **premature_answer** - Answering without gathering information
 5. **wrong_tool** - Using incorrect tool for the task
 
-## 🧠 Learning Mechanism
+## Learning Mechanism
 
 ### 1. Execution Phase
 - Agent receives query
@@ -101,48 +101,19 @@ export ANTHROPIC_API_KEY='your-anthropic-api-key'
 python research_agent.py
 ```
 
-## 💻 Usage
 
-### Basic Usage
-```python
-from research_agent import AgentMemory, ResearchAgent, Evaluator, LearningEngine
-
-# Initialize
-memory = AgentMemory("agent_memory.json")
-agent = ResearchAgent(api_key, memory)
-evaluator = Evaluator(api_key)
-learning_engine = LearningEngine(memory)
-
-# Execute query
-trace = agent.execute("What is the current population of Tokyo?")
-
-# Evaluate
-evaluation = evaluator.evaluate_execution(trace, query_requires_search=True)
-memory.add_evaluation(evaluation)
-
-# Learn from patterns
-new_pattern = learning_engine.analyze_and_learn()
-if new_pattern:
-    memory.add_learned_pattern(new_pattern)
-```
-
-### Running Full Demonstration
-```python
-python research_agent.py
-```
-
-## 📊 Expected Output Examples
+## Expected Output Examples
 
 ### Early Run (No Learning Yet)
 ```
 RUN #1: What is the current population of Tokyo?
-📋 Tools used: []
-💬 Answer: Tokyo has approximately 14 million people...
+Tools used: []
+Answer: Tokyo has approximately 14 million people...
 
-⚖️  Evaluation: ❌ FAILED
+Evaluation: FAILED
    Reason: Found 1 mistake(s)
 
-🔍 Mistakes identified:
+Mistakes identified:
    • no_search: Agent did not search the web for current information
      Expected: Should have used web_search before answering
 ```
@@ -150,13 +121,13 @@ RUN #1: What is the current population of Tokyo?
 ### After Learning
 ```
 RUN #4: What happened in the 2024 Olympics?
-📋 Tools used: ['web_search', 'web_fetch']
-💬 Answer: Based on search results, the 2024 Olympics...
+Tools used: ['web_search', 'web_fetch']
+Answer: Based on search results, the 2024 Olympics...
 
-⚖️  Evaluation: ✅ SUCCESS
+Evaluation: SUCCESS
    Reason: Agent correctly used tools in proper sequence
 
-📚 Active Learned Constraints: 2
+Active Learned Constraints: 2
 ```
 
 ### Learning Summary
@@ -177,7 +148,7 @@ Total Patterns Learned: 2
     Constraint: ALWAYS call web_search BEFORE web_fetch...
 ```
 
-## 🎯 Key Design Decisions
+## Key Design Decisions
 
 ### 1. Hybrid Evaluation (LLM + Rules)
 - **Why:** LLM provides nuanced understanding, rules provide reliability
@@ -204,7 +175,7 @@ Total Patterns Learned: 2
 - **How:** Python dataclasses with serialization
 - **Benefit:** Production-ready code quality
 
-## ⚠️ Known Limitations
+## Known Limitations
 
 1. **Mock Tools:** Current implementation uses simulated web_search/web_fetch
    - **Fix:** Replace with real API calls (e.g., Serper API, requests library)
@@ -224,51 +195,7 @@ Total Patterns Learned: 2
 6. **No Multi-Agent Scenarios:** Single agent learning
    - **Improvement:** Could share patterns across agent instances
 
-## 🚀 Production Enhancements
-
-For production deployment, consider:
-
-1. **Real Tool Integration**
-   ```python
-   import requests
-   from serpapi import GoogleSearch
-   
-   def web_search(query: str) -> str:
-       search = GoogleSearch({"q": query, "api_key": API_KEY})
-       return search.get_dict()
-   ```
-
-2. **Database Backend**
-   - Replace JSON with PostgreSQL/MongoDB
-   - Add indexing for fast pattern queries
-   - Enable concurrent access
-
-3. **Monitoring & Observability**
-   - Add logging (structured logs with trace IDs)
-   - Metrics dashboard (success rate, latency)
-   - Alert on degraded performance
-
-4. **A/B Testing Framework**
-   - Test new constraints before full rollout
-   - Compare constrained vs unconstrained performance
-
-5. **Constraint Management UI**
-   - View all learned patterns
-   - Enable/disable specific constraints
-   - Manual constraint addition
-
-## 📝 Code Quality Features
-
-- ✅ Type hints throughout
-- ✅ Docstrings for all classes/methods
-- ✅ Error handling with try/catch
-- ✅ Dataclasses for structure
-- ✅ Separation of concerns
-- ✅ Persistent storage
-- ✅ Modular design
-- ✅ Clear naming conventions
-
-## 🧪 Testing Strategy
+## Testing Strategy
 
 ```python
 # Unit tests
@@ -290,27 +217,3 @@ def test_full_improvement_cycle():
     # Run through test queries
     # Assert improvement metrics
 ```
-
-## 📈 Success Metrics
-
-- **Primary:** Success rate improvement over time (target: +50% after 5 runs)
-- **Secondary:** Average mistakes per run decrease
-- **Tertiary:** Constraint effectiveness (% of runs where constraint prevents mistake)
-
-## 🤝 Contributing
-
-This is an interview assignment, but the architecture supports:
-- Adding new mistake types
-- Implementing new tool types
-- Alternative learning algorithms
-- Enhanced evaluation logic
-
-## 📄 License
-
-This is assignment code for VE.AI interview process.
-
----
-
-**Author:** AI Engineer Candidate  
-**Date:** December 2025  
-**Purpose:** Technical Assessment for AI Engineer Role at VE.AI
