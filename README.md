@@ -45,7 +45,7 @@ To set up the self-improving AI agent, follow these steps:
 4. **Set up environment variables**
    Create a `.env` file in the project root and add your OpenAI API key:
    ```
-   OPENAI_API_KEY=your_api_key_here
+   TOGETHER_API_KEY=15945d687619194107b4d5cb281e4659e467500daa4a15a378fe7b9be9fa77b1
    ```
 
 5. **Run the tests** (optional but recommended)
